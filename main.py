@@ -37,10 +37,14 @@ class Reserver(object):
         pass
 
     def _populate_homepage_size(self):
-        size_elem = self.driver.find_element_by_name('Select_1')
-        select_size = Select(size_elem)
+        elem = self.driver.find_element_by_name('Select_1')
+        select = Select(elem)
         value = str(min(self._size, 21))
-        select_size.select_by_value(value)
+        select.select_by_value(value)
 
     def _populate_homepage_name(self):
-        pass
+        elem = self.driver.find_element_by_name('searchText')
+        elem.clear()
+        elem.send_keys(self._restaurant_name)
+        elem.send_keys(Keys.ESCAPE)
+
