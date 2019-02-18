@@ -8,4 +8,4 @@ def format_date(date):
 
 
 def format_time(time):  # TODO: allow for flexible time formats
-    return time
+    return pd.to_datetime(time).time()

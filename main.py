@@ -19,7 +19,7 @@ class Reserver(object):
         """
         self._restaurant_name = restaurant_name.strip()
         self._date = utils.format_date(date)
-        self._time = utils.format_date(time)
+        self._time = utils.format_time(time)
         self._size = size
 
     def reserve(self):
@@ -41,7 +41,10 @@ class Reserver(object):
         pass
 
     def _populate_homepage_time(self):
-        pass
+        elem = self.driver.find_element_by_name('Select_0')
+        select = Select(elem)
+        value = self._time.strftime('%H:%M')
+        select.select_by_value(value)
 
     def _populate_homepage_size(self):
         elem = self.driver.find_element_by_name('Select_1')
