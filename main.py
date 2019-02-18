@@ -4,15 +4,22 @@ import time as t
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+import utils
 
 
 class Reserver(object):
     HOME_URL = r'https://www.opentable.com/new-york-city-restaurants'
 
     def __init__(self, restaurant_name, date, time, size):
-        self._time = time
-        self._date = date
-        self._restaurant_name = restaurant_name
+        """
+        :str restaurant_name: name of restaurant
+        :str date: date of reservation, format 2019/01/01, 01/01/2019, 2019-01-01, 01-01-2019
+        :str time: time of reservation, format 4:00 PM
+        :int size: party size
+        """
+        self._restaurant_name = restaurant_name.strip()
+        self._date = utils.format_date(date)
+        self._time = utils.format_date(time)
         self._size = size
 
     def reserve(self):
@@ -47,4 +54,5 @@ class Reserver(object):
         elem.clear()
         elem.send_keys(self._restaurant_name)
         elem.send_keys(Keys.ESCAPE)
+
 
