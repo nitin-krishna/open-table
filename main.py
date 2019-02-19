@@ -41,16 +41,16 @@ class Reserver(object):
         pass
 
     def _populate_homepage_time(self):
-        elem = self.driver.find_element_by_name('Select_0')
-        select = Select(elem)
+        time_picker = self.driver.find_element_by_class_name('time-picker')
+        elem = time_picker.find_element_by_tag_name('select')
         value = self._time.strftime('%H:%M')
-        select.select_by_value(value)
+        Select(elem).select_by_value(value)
 
     def _populate_homepage_size(self):
-        elem = self.driver.find_element_by_name('Select_1')
-        select = Select(elem)
+        size_picker = self.driver.find_element_by_class_name('party-size-picker')
+        elem = size_picker.find_element_by_tag_name('select')
         value = str(min(self._size, 21))
-        select.select_by_value(value)
+        Select(elem).select_by_value(value)
 
     def _populate_homepage_name(self):
         elem = self.driver.find_element_by_name('searchText')
