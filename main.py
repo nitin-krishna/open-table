@@ -4,10 +4,11 @@ import time as t
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from otcalendar import OTCalendar
 import utils
 
 
-class Reserver(object):
+class OpenTableReserver(object):
     HOME_URL = r'https://www.opentable.com/new-york-city-restaurants'
 
     def __init__(self, restaurant_name, date, time, size):
@@ -21,14 +22,14 @@ class Reserver(object):
         self._date = utils.format_date(date)
         self._time = utils.format_time(time)
         self._size = size
+        self._open_driver()
 
     def reserve(self):
-        self._open_driver()
         self._populate_homepage()
 
     def _open_driver(self):
         driver = webdriver.Chrome()
-        driver.get(Reserver.HOME_URL)
+        driver.get(OpenTableReserver.HOME_URL)
         self.driver = driver
 
     def _populate_homepage(self):
@@ -37,8 +38,10 @@ class Reserver(object):
         self._populate_homepage_size()
         self._populate_homepage_name()
 
-    def _populate_homepage_date(self):
-        pass
+    def _populate_homepage_date(self):  # TODO: test more, need to wait for elements to be clickable
+        date_picker = self.driver.find_element_by_class_name('date-picker')
+        cal = OTCalendar(date_picker)
+        cal.select_date(self._date)
 
     def _populate_homepage_time(self):
         time_picker = self.driver.find_element_by_class_name('time-picker')
@@ -57,5 +60,3 @@ class Reserver(object):
         elem.clear()
         elem.send_keys(self._restaurant_name)
         elem.send_keys(Keys.ESCAPE)
-
-
